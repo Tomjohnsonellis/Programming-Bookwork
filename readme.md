@@ -1,5 +1,7 @@
 # Bookwork Repo
 
+(TODO: When I reach projects in PCC, put them all in a folder called "Part 1: Basics")
+
 This is a personal repo for my own learning, containing programming exercises and notes.
 
 Instead of a separate repository for every time I begin working through a textbook,
