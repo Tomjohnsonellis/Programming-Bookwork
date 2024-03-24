@@ -13,4 +13,7 @@ a_list = [1,2,3]
 a_list.pop(1)
 a_list.append(a_list[-1])
 a_list.insert(0,"Zero")
+del a_list[1]
+sorted(a_list.sort(reverse=True).reverse())
+len(a_list)
 ```
