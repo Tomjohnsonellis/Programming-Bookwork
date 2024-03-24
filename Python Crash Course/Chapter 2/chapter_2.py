@@ -1,5 +1,5 @@
-print("Chapter 2")
-# Variables - The convention is lower_case_names
+print("Chapter 2 - Variables")
+# The naming convention is lower_case_names
 print(25*"-")
 
 message = "You can never practice the fundamentals too much."
