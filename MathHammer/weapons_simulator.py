@@ -48,7 +48,7 @@ def shoot(weapon: RangedWeapon, printouts=False):
         print(f"Wound rolls were: {wound_rolls}")
         print("𓋹" * 20)
 
-    return wound_rolls
+    return wound_rolls, weapon.AP
 
 
 def determine_hits(hit_rolls, ballistic_skill):
@@ -92,6 +92,87 @@ def handle_slaughter(rolls_to_wound):
     return new_wound_rolls
 
 
+def toughness_save_table(wound_rolls, weapon_ap, printout=False, toughness=0):
+
+
+    if printout:
+        print("Amongus")
+
+    save_rolls = []
+    for wound in wound_rolls:
+        save_rolls.append(random.randint(1, 6))
+
+    print(save_rolls)
+
+    modified_save_rolls = [roll - 1 for roll in save_rolls]
+    for save in save_rolls:
+        if save == 1:
+            modified_save_rolls.append(1)
+        else:
+            modified_save_rolls.append(save - 1)
+
+    print(save_rolls)
+
+
+
+
+def wound_successes(wound_rolls, weapon_strength=False, enemy_toughness = False, printouts=False):
+
+    wounds_landed = []
+    # print(wound_rolls)
+    #
+    # for requirement in range(2,7):
+    #     print(f"Requirement: {requirement}")
+    #     successes = 0
+    #     for roll in wound_rolls:
+    #         print(f"Roll: {roll}")
+    #         if roll >= requirement:
+    #             successes += 1
+    #
+    #     wounds_landed.append(successes)
+
+    for value in range(2,7):
+        # print(value)
+        wounds_landed.append(sum(dice >= value for dice in wound_rolls))
+
+    if printouts:
+        print("Required Roll - Wounds Landed")
+        print(f"      2+      -      {wounds_landed[0]}")
+        print(f"      3+      -      {wounds_landed[1]}")
+        print(f"      4+      -      {wounds_landed[2]}")
+        print(f"      5+      -      {wounds_landed[3]}")
+        print(f"      6+      -      {wounds_landed[4]}")
+
+    if weapon_strength and enemy_toughness:
+        # Produce the appropriate result
+        if weapon_strength >= 2 * enemy_toughness:
+            # 2+
+            return wounds_landed[0]
+
+        if weapon_strength > enemy_toughness:
+            # 3+
+            return wounds_landed[1]
+
+        if weapon_strength == enemy_toughness:
+            # 4+
+            return wounds_landed[2]
+
+        if weapon_strength < enemy_toughness:
+            # 5+
+            return wounds_landed[3]
+
+        if weapon_strength <= 0.5 * enemy_toughness:
+            # 6+
+            return wounds_landed[4]
+
+        return wounds_landed
+
+
+    return wounds_landed
+
+
+from collections import Counter
+
 # bongletron = RangedWeapon("The Bongletron",20,2,2,6,4,3, "Sustained Hits 99")
 exterminator = RangedWeapon("Enmitic Exterminator",
                             36,
@@ -102,4 +183,20 @@ exterminator = RangedWeapon("Enmitic Exterminator",
                             1,
                             ["Heavy", "Rapid Fire 6", "Sustained Hits 1"])
 
-shoot(exterminator, True)
+
+flayer_claws = RangedWeapon(
+    "Flayer Claws",
+    0,
+    4,
+    3,
+    4,
+    1,
+    1,
+    ["Sustained Hits 1", "Twin-Linked"]
+)
+
+# wounds_rolled, ap = shoot(exterminator, True)
+# wound_successes(wounds_rolled, printouts=True)
+print("#"*20)
+stabs, ap = shoot(flayer_claws, True)
+wound_successes(stabs, printouts=True)
